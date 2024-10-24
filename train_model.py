@@ -497,7 +497,7 @@ if __name__ == "__main__":
     #             label_total += 1
     #         print("label %d : %f"%(i, label_acc/label_total))
     # print(correct_prediction_test_0/total)
-    # # for i in range(1):  # range(20) 20번 돌려서 평균내는 역할.
+    # # for i in range(1):  
     # #     if args.indi == 0:
     # #         accuracy_test_0,  num_epochs = calculate_fitness2(args, examples_training, labels_training)
     # #     else:
