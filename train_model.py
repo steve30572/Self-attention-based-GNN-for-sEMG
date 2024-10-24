@@ -42,9 +42,9 @@ def add_args(parser):
                         help='0: GNN, 1: concat version, 2: GAT version')
     parser.add_argument('--indi', type=int, default=1, metavar='N',
                         help='0: total, 1: indi')
-    parser.add_argument('--data', default='NM_정희수2_sep4_data.npy', metavar='N',
+    parser.add_argument('--data', default='example_data.npy', metavar='N',
                         help='name of dataset, nina5_data_xshit.npy, new_data_36.npy, evaluation_example.npy')
-    parser.add_argument('--label', default='NM_정희수2_sep4_label.npy', metavar='N',
+    parser.add_argument('--label', default='example_label.npy', metavar='N',
                         help='name of label nina5_label.npy, new_label_36.npy, evaluation_labels.npy')
     parser.add_argument('--cand_num', type=int, default=1, metavar='N',
                         help='number of candidates for each dataset, 10, 36, 17')
@@ -353,7 +353,7 @@ def calculate_fitness2_indi(args, examples_training, labels_training):
         criterion = nn.NLLLoss(size_average=False)
         optimizer = optim.Adam(stgcn.parameters(), lr=args.lr) #lr=args.lr)  # lr=0.0404709 lr=args.lr
         # scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer, mode='min', factor=.2, patience=5,
-        #                                                  verbose=True, eps=args.precision) #학습이 개선되지 않을때 자동으로 학습률을 조절합니다.
+        #                                                  verbose=True, eps=args.precision)
         # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, 10, eta_min=0.00,  verbose=True)
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer, mode='min', factor=.4, patience=5,
                                                          verbose=True, eps=precision)
@@ -426,15 +426,15 @@ if __name__ == "__main__":
     # labels_training = np.load("./EMG_data_for_gestures-master/new_label_1.npy", encoding="bytes", allow_pickle=True)
     parser = argparse.ArgumentParser()
     args = add_args(parser)
-    examples_training = np.load("./data/CWT_dataset/" + args.data, encoding="bytes", allow_pickle=True)
-    labels_training = np.load("./data/CWT_dataset/" + args.label, encoding="bytes", allow_pickle=True)
+    examples_training = np.load("./data/" + args.data, encoding="bytes", allow_pickle=True) # data should have shape (# of data, time (24), channel (8), scale (7))
+    labels_training = np.load("./data/" + args.label, encoding="bytes", allow_pickle=True)
     accuracy_one_by_one = []
     array_training_error = []
     array_validation_error = []
 
     test_0, test_1 = [], []
 
-    for i in range(1):  # range(20) 20번 돌려서 평균내는 역할.
+    for i in range(1):  
         if args.indi == 0:
             accuracy_test_0, num_epochs = calculate_fitness2(args, examples_training, labels_training)
         else:
@@ -457,7 +457,7 @@ if __name__ == "__main__":
     np.save('validation_loss_ours.npy', np.array(valid_loss))
     np.save('validation_acc_ours.npy', np.array(valid_acc))
 
-#######뭔지 모르겠다...
+#######
     # parser = argparse.ArgumentParser()
     # args = add_args(parser)
     # examples_training = np.load("./data/CWT_dataset/" + args.data, encoding="bytes", allow_pickle=True)
