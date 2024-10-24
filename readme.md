@@ -13,7 +13,7 @@ Please place the 'data' directory in the same home directory.
 For your custom dataset, the shape of the data should equal to   
 (# number of data, timescale (24 in our case), # of sensors (8), # of scales (7)).
 
-We upload the sample preprocess python file as well.
+We upload the sample preprocess python file as well.
 
 ## How to run the code
 
